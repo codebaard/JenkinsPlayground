@@ -2,36 +2,27 @@ pipeline {
   agent any
 
   stages{
-    stage('Tests for development') {
-      when {
-          branch 'dev'
-      }
+    stage('Checkout'){
+            steps {
+        git branch:'*', credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git'
+      }   
+    }
+    stage('Validate') {
       steps {
-        git branch:'dev', credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git'
-      }
-      steps {
+        echo 'terraform validate'
         echo 'terraform plan'
       }      
     }
-
-    stage('Deploy for production') {
-        when {
-            branch 'main'
+    stage('Deploy') {
+      when {
+          branch 'main'
+      }     
+      steps {
+        script {
+            def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
         }
-        steps {
-          git branch:'main', credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git'
-        }
-        steps {
-            echo 'terraform plan'
-        }
-        steps {
-            script {
-              def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
-            }
-        }
-        steps {
-          sh 'echo terraform apply -auto-approve'
-        }                      
+        sh 'echo terraform apply -auto-approve'
+      }                      
     } 
   }
 } 
