@@ -4,7 +4,7 @@ pipeline {
   stages{
     stage('Checkout'){
       steps {
-        git branch:'main', credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git'
+        git credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git'
       }   
     }
     stage('Validate') {
