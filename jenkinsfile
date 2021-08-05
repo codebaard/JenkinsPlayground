@@ -8,14 +8,13 @@
     stages {
       stage('fetch_latest_code') {
         steps {
-          git credentialsId: '17371c59-6b11-42c7-bb25-a37a9febb4db', url: 'https://github.com/PrashantBhatasana/terraform-jenkins-ec2'
+          git credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'https://github.com/codebaard/JenkinsPlayground'
         }
       }
 
       stage('TF Init&Plan') {
         steps {
-          sh 'terraform init'
-          sh 'terraform plan'
+          sh 'echo terraform plan'
         }      
       }
 
@@ -29,7 +28,8 @@
 
       stage('TF Apply') {
         steps {
-          sh 'terraform apply -input=false'
+          sh 'echo terraform apply -auto-approve'
+          //sh 'terraform apply -input=false'
         }
       }
     } 
