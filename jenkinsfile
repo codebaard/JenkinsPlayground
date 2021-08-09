@@ -6,6 +6,7 @@ pipeline {
     stage('Environment'){
       steps{
         sh 'printenv'
+        sh 'terraform --version'
       }
     }
     stage('Checkout'){
