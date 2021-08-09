@@ -21,8 +21,9 @@ pipeline {
     }
     stage('Validate') {
       steps {
-        echo 'terraform validate'
-        echo 'terraform plan'
+        sh 'terraform init'
+        sh 'terraform validate'
+        sh 'terraform plan'
       }      
     }
     stage('Deploy') {
