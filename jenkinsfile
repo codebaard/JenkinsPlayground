@@ -1,23 +1,15 @@
 pipeline {
+
   agent any
-  //parameters {
-    //gitParameter branchFilter: 'origin/(.*)', 
-    //              defaultValue: 'main', 
-    //              name: 'BRANCH', 
-    //              type: 'PT_BRANCH'
-    //gitParameter name: 'BRANCH', 
-    //            type: 'PT_BRANCH',
-    //            defaultValue: 'main'
-  //}
+
   stages{
     stage('Checkout'){
       steps {
         sh 'printenv'
         echo 'Pulling... ' + env.GIT_BRANCH
-        echo "${params.BRANCH}"
         checkout changelog: false, 
                   scm: [$class: 'GitSCM', 
-                  branches: [[name: "${params.BRANCH}"]], 
+                  branches: [[name: env.GIT_BRANCH]], 
                   extensions: [], 
                   userRemoteConfigs: [[credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', 
                   url: 'git@github.com:codebaard/JenkinsPlayground.git']]]
@@ -30,10 +22,7 @@ pipeline {
       }      
     }
     stage('Deploy') {
-      //when {
-      //    branch 'origin/main'
-      //}   
-      when { equals expected: 'main', actual: "${params.BRANCH}" }
+      when { equals expected: 'origin/main', actual: env.GIT_BRANCH }
       steps {
         script {
             def userInput = input(id: 'confirm', 
