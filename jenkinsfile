@@ -6,6 +6,7 @@ pipeline {
   stages{
     stage('Checkout'){
       steps {
+        echo '${params.BRANCH}'
         checkout changelog: false, scm: [$class: 'GitSCM', branches: [[name: '${params.BRANCH}']], extensions: [], userRemoteConfigs: [[credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git']]]
       }   
     }

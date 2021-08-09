@@ -2,4 +2,4 @@
 build a jenkins pipeline
 
 * Install Jenkins
-* Required Plugins, which arent installed by default: Terraform, AWS EC2, 
+* Required Plugins, which arent installed by default: Terraform, AWS EC2, gitParameter
