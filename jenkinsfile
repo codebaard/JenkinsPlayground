@@ -12,7 +12,6 @@ pipeline {
     }
     stage('Validate') {
       steps {
-        echo "${params.BRANCH}"
         echo 'terraform validate'
         echo 'terraform plan'
       }      
