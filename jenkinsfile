@@ -5,13 +5,15 @@ pipeline {
     //              defaultValue: 'main', 
     //              name: 'BRANCH', 
     //              type: 'PT_BRANCH'
-    gitParameter name: 'BRANCH', 
-                type: 'PT_BRANCH',
-                defaultValue: 'main'
+    //gitParameter name: 'BRANCH', 
+    //            type: 'PT_BRANCH',
+    //            defaultValue: 'main'
   }
   stages{
     stage('Checkout'){
       steps {
+        sh 'printenv'
+        echo 'Pulling... ' + env.GIT_BRANCH
         echo "${params.BRANCH}"
         checkout changelog: false, 
                   scm: [$class: 'GitSCM', 
