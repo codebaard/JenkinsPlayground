@@ -1,23 +1,26 @@
 pipeline {
   agent any
-
+  parameters {
+    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
+  }
   stages{
     stage('Checkout'){
       steps {
-        //git credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git'
-        checkout changelog: false, scm: [$class: 'GitSCM', branches: [[name: '**']], extensions: [], userRemoteConfigs: [[credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git']]]
+        checkout changelog: false, scm: [$class: 'GitSCM', branches: [[name: '${params.BRANCH}']], extensions: [], userRemoteConfigs: [[credentialsId: 'ada2335b-6875-41b1-bbc8-53aa2e345d17', url: 'git@github.com:codebaard/JenkinsPlayground.git']]]
       }   
     }
     stage('Validate') {
       steps {
+        echo '${params.BRANCH}'
         echo 'terraform validate'
         echo 'terraform plan'
       }      
     }
     stage('Deploy') {
-      when {
-          branch 'main'
-      }     
+      //when {
+      //    branch 'origin/main'
+      //}   
+      when { equals expected: 'origin/master', actual: '${params.BRANCH}' }
       steps {
         script {
             def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
