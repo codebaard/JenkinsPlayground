@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  parameters {
+  //parameters {
     //gitParameter branchFilter: 'origin/(.*)', 
     //              defaultValue: 'main', 
     //              name: 'BRANCH', 
@@ -8,7 +8,7 @@ pipeline {
     //gitParameter name: 'BRANCH', 
     //            type: 'PT_BRANCH',
     //            defaultValue: 'main'
-  }
+  //}
   stages{
     stage('Checkout'){
       steps {
