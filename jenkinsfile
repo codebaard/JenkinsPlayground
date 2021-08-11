@@ -22,6 +22,8 @@ pipeline {
     }
     stage('Validate') {
       steps {
+        sh 'ls -la'
+        sh 'cd terraform'
         sh 'terraform init'
         sh 'terraform validate'
         sh 'terraform plan'
