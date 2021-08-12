@@ -20,16 +20,25 @@ pipeline {
                   url: 'git@github.com:codebaard/JenkinsPlayground.git']]]
       }   
     }
-    stage('Validate') {
+    stage('Validate Terraform') {
       steps {
         dir("terraform") {
-          sh 'ls -la'
           sh 'terraform init'
           sh 'terraform validate'
           sh 'terraform plan'
         }
       }      
     }
+
+
+    stage('Validate Flyway'){
+      steps{
+        dir("flyway"){
+          sh 'flyway --version'
+        }
+      }
+    }
+
     stage('Deploy') {
       when { equals expected: 'origin/main', actual: env.GIT_BRANCH }
       steps {
