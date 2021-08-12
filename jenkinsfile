@@ -30,6 +30,14 @@ pipeline {
       }      
     }
 
+    stage('Validate Flyway'){
+      steps{
+        dir("flyway"){
+          sh 'flyway --version'
+        }
+      }
+    }
+
     stage('Deploy') {
       when { equals expected: 'origin/main', actual: env.GIT_BRANCH }
       steps {
