@@ -34,6 +34,9 @@ pipeline {
       steps{
         dir("flyway"){
           sh 'flyway --version'
+          sh 'chmod +x DispatchFiles.sh'
+          sh 'DispatchFiles.sh'
+          sh 'flyway migrate'
         }
       }
     }
