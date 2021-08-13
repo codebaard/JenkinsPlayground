@@ -30,6 +30,17 @@ pipeline {
       }      
     }
 
+    stage('Validate Flyway'){
+      steps{
+        dir("flyway"){
+          sh 'flyway --version'
+          sh 'chmod +x DispatchFiles.sh'
+          sh './DispatchFiles.sh'
+          sh 'flyway migrate'
+        }
+      }
+    }
+
     stage('Deploy') {
       when { equals expected: 'origin/main', actual: env.GIT_BRANCH }
       steps {
